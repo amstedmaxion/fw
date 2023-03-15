@@ -1,0 +1,30 @@
+{
+    "version": "1.0.1",
+    "name": "amgb/framework",
+    "authors": [{
+        "name": "José Augusto",
+        "email": "jose.jesus@gbmx.com.br"
+    }],
+    "require": {
+        "league/plates": "^3.4",
+        "symfony/var-dumper": "^5.4",
+        "guzzlehttp/guzzle": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "src\\": "src"
+        },
+        "files": [
+            "src/helpers/routes.php",
+            "src/helpers/handleEnvironments.php",
+            "src/helpers/env.php",
+            "src/helpers/json.php",
+            "src/helpers/generic.php",
+            "src/helpers/flash.php",
+            "src/helpers/redirect.php",
+            "src/helpers/toastify.php",
+            "src/helpers/sessions.php",
+            "src/helpers/path.php"
+        ]
+    }
+}

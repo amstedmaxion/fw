@@ -1,0 +1,54 @@
+stages:
+    - build
+    - deploy
+    - build-prod
+    - deploy-prod
+
+cache:
+  paths:
+    - vendor/
+
+build:
+  stage: build
+  environment: Homolog
+  tags:
+    - homolog
+  only:
+    - homolog
+  script:
+    - composer install
+
+deploy:
+  stage: deploy
+  environment: Homolog
+  tags:
+    - homolog
+  only:
+    - homolog
+  script:
+    - mkdir -p /var/www/htdocs/amsted/products-stock/
+    - cp -r ./* /var/www/htdocs/amsted/products-stock/
+    - cp -r ./.htaccess /var/www/htdocs/amsted/products-stock/
+    # - curl http://192.168.44.252/amsted/products-stock/migrations
+
+build-prod:
+  stage: build
+  environment: Prod
+  tags:
+    - prod
+  only:
+    - master
+  script:
+    - composer install
+
+deploy-prod:
+  stage: deploy
+  environment: Prod
+  tags:
+    - prod
+  only:
+    - master
+  script:
+    - mkdir -p /var/www/htdocs/amsted/products-stock/
+    - cp -r ./* /var/www/htdocs/amsted/products-stock/
+    - cp -r ./.htaccess /var/www/htdocs/amsted/products-stock/

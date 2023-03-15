@@ -1,5 +1,5 @@
 <?php
-define("VERSION_FW", "1.0.1");
+define("VERSION_FW", "1.0.0");
 
 /** Defines the application URL */
 $directory = "framework-am-gb";

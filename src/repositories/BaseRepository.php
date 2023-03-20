@@ -89,19 +89,6 @@ abstract class BaseRepository
 
 
 
-        if (isset($this->relations) && count($this->relations)) {
-            foreach ($this->results as $index => $result) {
-                foreach ($this->relations as $class => $options) {
-                    $classNamespace = "src\database\models\\{$class}";
-                    $query = "SELECT * FROM {$options['table']} WHERE {$options['column']} = {$result->id}";
-
-                    $newIndex = $options['index'];
-                    $result->$newIndex = $options['relation'] === 'hasOne' ? $this->connect($this->model->db)->query($query)->fetchObject($classNamespace) : $this->connect($this->model->db)->query($query)->fetchAll(PDO::FETCH_CLASS, $classNamespace);
-                }
-            }
-        }
-
-
         if ($onlyOne) $this->results = array_shift($this->results);
 
         return $this;
@@ -117,7 +104,6 @@ abstract class BaseRepository
 
         try {
             $properties = array_excepts(get_object_vars($this->model), ["table", "db", "relations"]);
-
 
             if (!isset($this->model->id)) {
                 $fields = implode(', ', array_keys($properties));
@@ -313,5 +299,47 @@ abstract class BaseRepository
             $this->$name = $value;
         }
         return $this;
+    }
+
+
+    /**
+     * This method is responsible for seeking the registration of relationships with the model
+     * @return self
+     */
+    public function relations(): self
+    {
+        if (isset($this->model->relations) && count($this->model->relations)) {
+            if (is_array($this->results)) {
+                foreach ($this->results as $index => $result) {
+                    foreach ($this->model->relations as $class => $options) {
+                        $classNamespace = "src\database\models\\{$class}";
+                        $query = "SELECT * FROM {$options['table']} WHERE {$options['column']} = {$result->id}";
+
+                        $newIndex = $options['index'];
+                        $result->$newIndex = $options['relation'] === 'hasOne' ? $this->connect($this->model->db)->query($query)->fetchObject($classNamespace) : $this->connect($this->model->db)->query($query)->fetchAll(PDO::FETCH_CLASS, $classNamespace);
+                    }
+                }
+            } else if (is_object($this->results)) {
+                foreach ($this->model->relations as $class => $options) {
+                    $classNamespace = "src\database\models\\{$class}";
+                    $query = "SELECT * FROM {$options['table']} WHERE {$options['column']} = {$this->results->id}";
+
+                    $newIndex = $options['index'];
+                    $this->results->$newIndex = $options['relation'] === 'hasOne' ? $this->connect($this->model->db)->query($query)->fetchObject($classNamespace) : $this->connect($this->model->db)->query($query)->fetchAll(PDO::FETCH_CLASS, $classNamespace);
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Method responsible for seeking the results
+     * 
+     * @return array|object|null
+     */
+    public function get(): array|object|null
+    {
+        return $this?->results;
     }
 }

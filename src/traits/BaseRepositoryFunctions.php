@@ -11,29 +11,21 @@ trait BaseRepositoryFunctions
     /**
      * Method responsible for seeking all records in the database
      * 
-     * @return array|null
+     * @return object|null
      */
-    public function all(): array|null
+    public function all(): object|null
     {
-        return $this->select(["*"])->done(onlyOne: false)?->results;
+        return $this->select(["*"])->done(onlyOne: false);
     }
 
     /**
      * This method aims to seek all records of the table configured through the model
      * 
-     * @return null|array
+     * @return object|null
      */
-    public function allWithPaginate()
+    public function allWithPaginate(): object|null
     {
-
-        $result = $this->select(["*"])->done(onlyOne: false, paginate: (object) [PERPAGE => 4, PAGE => Request::query("page") ?? 1]);
-
-        if (!$result) return null;
-
-        return (object) [
-            "results" => $result->results,
-            "paginate" => $result->paginate
-        ];
+        return $this->select(["*"])->done(onlyOne: false, paginate: (object) [PERPAGE => 4, PAGE => Request::query("page") ?? 1]) ?? null;
     }
 
     /**
@@ -44,17 +36,20 @@ trait BaseRepositoryFunctions
      */
     public function byId(int $id)
     {
-        return $this->select(['*'])->where(column: "id", operator: "=", value: $id)->done(onlyOne: true)?->results;
+        return $this->select(['*'])->where(column: "id", operator: "=", value: $id)->done(onlyOne: true);
     }
 
     /**
      * This method's responsible for find by column
      * 
-     * @param mixed $id  Registration ID that is to seek
+     * @param string $column Column that will be used in comparative condition
+     * @param string $operator Operator that will be used in comparative condition
+     * @param mixed $value Value that will be used in comparative condition
+     * @param bool $onlyOne Whether the result should be just a record or not
      * @return object|null
      */
     public function byColumn(string $column, string $operator, mixed $value, bool $onlyone = true)
     {
-        return $this->select(['*'])->where(column: $column, operator: $operator, value: $value)->done(onlyOne: $onlyone)?->results;
+        return $this->select(['*'])->where(column: $column, operator: $operator, value: $value)->done(onlyOne: $onlyone);
     }
 }

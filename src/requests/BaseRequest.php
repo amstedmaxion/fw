@@ -36,7 +36,7 @@ abstract class BaseRequest
     public function execute()
     {
         if (!formValidate($this->rules())) {
-            toast("Whoops! Não foi possível prosseguir com a solicitação.", MESSAGE_ERROR);
+            notiflixNotify("Whoops! Não foi possível prosseguir com a solicitação.", MESSAGE_ERROR);
             return redirect(url_back());
         }
 

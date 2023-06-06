@@ -16,6 +16,7 @@
         },
         "files": [
             "src/helpers/init.php",
+            "src/helpers/messages.php",
             "src/helpers/routes.php",
             "src/helpers/handleEnvironments.php",
             "src/helpers/env.php",

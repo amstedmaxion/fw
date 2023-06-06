@@ -6,9 +6,7 @@ class Flash
 {
     public static function set(string $index, string $value)
     {
-        // if (!isset($_SESSION['isWrong'][$index])) {
         $_SESSION['isWrong'][$index] = $value;
-        // }
     }
 
     public static function get(string $index)

@@ -10,8 +10,7 @@
  */
 function css_directory($path = '')
 {
-    $request_scheme = URL_BASE;
-    return $request_scheme . "/public/css{$path}";
+    return URL_BASE . "/public/css{$path}";
 }
 
 /**
@@ -22,8 +21,7 @@ function css_directory($path = '')
  */
 function js_directory($path = '')
 {
-    $request_scheme = URL_BASE;
-    return $request_scheme  . "/public/js{$path}";
+    return URL_BASE  . "/public/js{$path}";
 }
 
 /**
@@ -34,14 +32,12 @@ function js_directory($path = '')
  */
 function uploads_directory($path = '')
 {
-    $request_scheme = URL_BASE;
-    return $request_scheme  . "/public/uploads{$path}";
+    return URL_BASE  . "/public/uploads{$path}";
 }
 
 function base_url()
 {
-    $request_scheme = URL_BASE;
-    return $request_scheme;
+    return URL_BASE;
 }
 
 
@@ -54,8 +50,7 @@ function base_url()
  */
 function image_directory($image)
 {
-    $request_scheme = URL_BASE;
-    return $request_scheme  . '/public/images/' . $image;
+    return URL_BASE  . '/public/images/' . $image;
 }
 
 

@@ -22,8 +22,8 @@
             "src/helpers/generic.php",
             "src/helpers/flash.php",
             "src/helpers/redirect.php",
-            "src/helpers/toastify.php",
             "src/helpers/sessions.php",
+            "src/helpers/notiflix.php",
             "src/helpers/path.php"
         ]
     }

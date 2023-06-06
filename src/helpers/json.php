@@ -9,10 +9,7 @@
 function isJson(string $data)
 {
     $r = json_decode($data);
-    if (json_last_error() === JSON_ERROR_NONE)
-        return $r;
-    else
-        return null;
+    return json_last_error() === JSON_ERROR_NONE ? $r : null;
 }
 
 

@@ -1,26 +1,27 @@
 <?php
-define("VERSION_FW", "1.0.0");
 
-/** Defines the application URL */
+//CONFIG DIRECTORY NAME
 $directory = "framework-am-gb";
-if(!isProduction()) $directory .= "-dev";
+if (!isProduction())
+    $directory .= "-dev";
+
+//URL_BASE
 define('URL_BASE', "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/amsted/{$directory}");
+
+//PATH_BASE
 define("PATH_BASE", "/var/htdocs/amsted/{$directory}");
 
 
+//LANG
 /** Define Language (pt-br or en) */
 define('LANG', 'pt-br');
 
 
-/**
- * If this variable is true, the application will display errors on the screens (recommended development of the development)
- */
+//DEBUG
 define('DEBUG', true);
 
 
-/**
- * Variables for the Sweet Alert library
- */
+//MESSAGES
 define('MESSAGE_ERROR', 'error');
 define('MESSAGE_INFO', 'info');
 define('MESSAGE_SUCCESS', 'success');
@@ -28,7 +29,7 @@ define('MESSAGE_WARNING', 'warning');
 
 
 
-/** Database Class Settings */
+//DATABASE
 define("API_DATABASE", "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/amsted/framework-setup/what-is-connection/");
 define("INTRANET_OLD_PRODUCTION", 'intranet-old-production');
 define("INTRANET_OLD_HOMOLOGATION", 'intranet-old-homologation');
@@ -44,5 +45,7 @@ define("WORKFLOW_LATEST_PRODUCTION", 'workflow-latest-production');
 define("WORKFLOW_LATEST_HOMOLOGATION", 'workflow-latest-homologation');
 
 
+
+//PAGINATION
 define("PERPAGE", 'perPage');
 define("PAGE", 'page');

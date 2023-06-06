@@ -114,10 +114,3 @@ function formValidate(array $validations): array|bool
         return false;
     }
 }
-
-
-
-function renderSvg(string $svg)
-{
-    return file_get_contents(image_directory($svg));
-}

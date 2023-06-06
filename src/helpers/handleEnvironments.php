@@ -7,7 +7,8 @@
  */
 function isProduction()
 {
-    return $_SERVER['HTTP_HOST'] === '172.30.0.94';
+    $production = ["172.30.0.94"];
+    return in_array($_SERVER['HTTP_HOST'], $production);
 }
 
 

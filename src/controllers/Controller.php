@@ -17,12 +17,11 @@ abstract class Controller
     protected function view(string $view, array $data = []): void
     {
         $viewPath = "./src/views/{$view}.php";
-        if(!file_exists($viewPath)){
+        if (!file_exists($viewPath)) 
             throw new Exception("A view ({$view}) não existe");
-        }
 
         $templates = new Engine('./src/views');
-        
+
         // $templates->addData([]);
         echo $templates->render(
             $view,

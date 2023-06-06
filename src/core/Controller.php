@@ -17,9 +17,9 @@ class Controller
      */
     public function execute(string $router, string $middleware): void
     {
-        if (substr_count($router, '@') <= 0) {
+        if (substr_count($router, '@') <= 0)
             throw new Exception("A rota está registrada com o formato errado");
-        }
+
 
         list($controller, $method) = explode('@', $router);
 
@@ -27,9 +27,9 @@ class Controller
         $namespace = 'src\controllers\\';
         $controllerNamespace = "{$namespace}{$controller}";
 
-        if (!class_exists($controllerNamespace)) {
+        if (!class_exists($controllerNamespace))
             throw new Exception("O controller ({$controllerNamespace}) não existe");
-        }
+
 
 
         $controller = new $controllerNamespace;
@@ -47,9 +47,9 @@ class Controller
 
             $parameters = $reflection?->getMethod($method)?->getParameters();
             if ($parameters) {
-                if ($parameters) {
+                if ($parameters)
                     $requestFull = $parameters[0]?->getType()?->getName();
-                }
+
                 $request = (new $requestFull());
                 $response = $controller->$method($request, ...$params);
             } else {

@@ -21,20 +21,20 @@ class ControllerParams
         $routes = Routes::get();
         $requestMethod = RequestType::get();
 
-        if($middleware) $router = "{$router}:{$middleware}";
+        if ($middleware) $router = "{$router}:{$middleware}";
         $router = array_search($router, $routes[$requestMethod]);
 
-        
+
         $explodeUri = array_filter(explode('/', $uri));
         $explodeUri = array_values($explodeUri);
         $explodeRouter = array_values(array_filter(explode('/', $router)));
-        
+
 
         $params = [];
         foreach ($explodeRouter as $index => $routerSegment) {
-            if(isset($explodeUri[$index]) && $routerSegment !== $explodeUri[$index]){
+            if (isset($explodeUri[$index]) && $routerSegment !== $explodeUri[$index]) 
                 $params[$index] = $explodeUri[$index];
-            }
+            
         }
 
         return $params;

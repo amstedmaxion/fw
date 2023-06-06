@@ -60,9 +60,9 @@ class Response
     {
 
         $viewPath = "./src/views/{$view}.php";
-        if (!file_exists($viewPath)) {
+        if (!file_exists($viewPath)) 
             throw new Exception("A view ({$view}) não existe");
-        }
+        
 
         $templates = new Engine('./src/views');
 

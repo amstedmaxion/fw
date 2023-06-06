@@ -14,9 +14,7 @@ class Request
      */
     public static function input(string $name): string|null
     {
-        if (isset($_POST[$name])) {
-            return $_POST[$name];
-        }
+        if (isset($_POST[$name])) return $_POST[$name];
         return null;
     }
 
@@ -51,7 +49,7 @@ class Request
      * @param string|array $only
      * @return array
      */
-    public static function only($only): array
+    public static function only(string|array $only): array
     {
         $fieldsPost = self::all();
         $fieldsPostKeys = array_keys($fieldsPost);
@@ -75,7 +73,7 @@ class Request
      * @param string|array $excepts
      * @return array
      */
-    public static function excepts($excepts): array
+    public static function excepts(string|array $excepts): array
     {
         $fieldsPost = self::all();
 

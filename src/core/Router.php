@@ -18,15 +18,13 @@ class Router
             $router = $routerRegistered->get();
             $middleware = '';
             if ($router) {
-                if (string_contains($router, ':')) {
+                if (string_contains($router, ':'))
                     [$router, $middleware] = explode(':', $router);
-                }
-            } else 
+            } else
                 throw new Exception("A rota informada não existe");
-            
 
-            $controller = new Controller;
-            $controller->execute($router, $middleware);
+
+            (new Controller)->execute($router, $middleware);
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }

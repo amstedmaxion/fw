@@ -27,12 +27,7 @@ class RoutersFilter
      */
     private function simpleRouter(): string|null
     {
-        
-        if (array_key_exists($this->uri, $this->routesRegistered[$this->method])) {
-            return $this->routesRegistered[$this->method][$this->uri];
-        }
-
-        return null;
+        return array_key_exists($this->uri, $this->routesRegistered[$this->method]) ? $this->routesRegistered[$this->method][$this->uri] : null;
     }
 
 
@@ -49,9 +44,8 @@ class RoutersFilter
             if ($index !== '/' and preg_match("/^$regex$/", ltrim($this->uri, '/'))) {
                 $routerRegisteredFound = $route;
                 break;
-            } else {
+            } else
                 $routerRegisteredFound = null;
-            }
         }
         return $routerRegisteredFound;
     }

@@ -18,8 +18,9 @@ class Response
      * @param array|object Content that will be converted to JSON
      * @return self
      */
-    public static function json(array|object $data): self
+    public static function json(array|object $data, int $statusCode): self
     {
+        http_response_code($statusCode);
         self::$isString = response_json($data);
         return new static;
     }

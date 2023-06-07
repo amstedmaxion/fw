@@ -1,7 +1,7 @@
 <?php
 
 //CONFIG DIRECTORY NAME
-$directory = "framework-am-gb";
+$directory = "fw";
 if (!isProduction())
     $directory .= "-dev";
 
@@ -43,9 +43,41 @@ define("TABLEAU_PRODUCTION", 'tableau-production');
 define("WORKFLOW_OLD_PRODUCTION", 'workflow-old-production');
 define("WORKFLOW_LATEST_PRODUCTION", 'workflow-latest-production');
 define("WORKFLOW_LATEST_HOMOLOGATION", 'workflow-latest-homologation');
+define("INTRANET_DEFAULT", INTRANET_LATEST_HOMOLOGATION);
 
 
 
 //PAGINATION
 define("PERPAGE", 'perPage');
 define("PAGE", 'page');
+
+
+
+//CONFIG MENU ID
+define("MENU_ID", "number or text");
+
+//CONFIG USER
+$emailDomain = (!empty($_SESSION["usuarioEmpresa"]) &&
+    $_SESSION["usuarioEmpresa"] === '09' &&
+    (!empty($_SESSION["usuarioCorporativo"]) &&
+        !$_SESSION["usuarioCorporativo"]
+    )) ? "@amstedmaxion.com.br" : "@gbmx.com.br";
+$user = [
+    "identifier" => $_SESSION["usuarioID"] ?? null,
+    "name" => $_SESSION["usuarioNome"] ?? null,
+    "company" => $_SESSION["usuarioEmpresa"] ?? null,
+    "isCorporate" => $_SESSION["usuarioCorporativo"] ?? null,
+    "isCruzeiro" => $_SESSION["usuarioCruzeiro"] ?? null,
+    "code" => $_SESSION["user"]["codigo"] ?? null,
+    "group" => $_SESSION["user"]["area"] ?? null,
+    "center_cost" => $_SESSION["user"]["centro_custo"] ?? null,
+    "unit_name" => $_SESSION["user"]["unidade"] ?? null,
+    "ramal" => $_SESSION["user"]["ramal"] ?? null,
+    "email_partial" => $_SESSION["user"]["email"] ?? null,
+    "email_full" => $_SESSION["user"]["email"] . $emailDomain ?? null,
+];
+/* Defining a constant named "USER" with the value of the  variable, which is an object containing
+information about the current user. This constant can be accessed throughout the code and its value
+cannot be changed during runtime. */
+
+define("USER", $user);

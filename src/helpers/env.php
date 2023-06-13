@@ -29,21 +29,24 @@ define('MESSAGE_WARNING', 'warning');
 
 
 
-//DATABASE
-define("API_DATABASE", "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/amsted/framework-setup/what-is-connection/");
-define("INTRANET_OLD_PRODUCTION", 'intranet-old-production');
-define("INTRANET_OLD_HOMOLOGATION", 'intranet-old-homologation');
-define("INTRANET_LATEST_PRODUCTION", 'intranet-latest-production');
-define("INTRANET_LATEST_HOMOLOGATION", 'intranet-latest-homologation');
-define("POWERBI_PRODUCTION", 'powerbi-production');
-define("SUPPLIER_PORTAL_PRODUCTION", 'suppplier-portal-production');
-define("LOGIX_PRODUCTION", 'logix-production');
-define("LOGIX_GLASS", 'logix-glass');
-define("TABLEAU_PRODUCTION", 'tableau-production');
-define("WORKFLOW_OLD_PRODUCTION", 'workflow-old-production');
-define("WORKFLOW_LATEST_PRODUCTION", 'workflow-latest-production');
-define("WORKFLOW_LATEST_HOMOLOGATION", 'workflow-latest-homologation');
-define("INTRANET_DEFAULT", INTRANET_LATEST_HOMOLOGATION);
+//DATABASE INTRANET
+define("INTRANET_PROD_02", "intranet_prod_02");
+define("INTRANET_PROD_094", "intranet_prod_94");
+define("INTRANET_HOMO_252", "intranet_homo_252");
+
+//DATABASE WORKFLOW
+define("WORKFLOW_PROD_54", "workflow_prod_54");
+define("WORKFLOW_PROD_50", "workflow_prod_50");
+
+//DATABASE LOGIX
+define("LOGIX_PROD", "logix_prod");
+
+//DATABASE POWERBI
+
+//DATABASE TABLEAU
+
+//DATABASE DEFAULT
+define("DATABASE_DEFAULT", INTRANET_PROD_02);
 
 
 

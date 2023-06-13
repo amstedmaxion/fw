@@ -252,9 +252,7 @@ abstract class BaseRepository
      */
     public function connect(string $whatIsConnection): PDO
     {
-        $database = (new Database($whatIsConnection))->connect();
-        if ($database->isConnected())
-            return $database->getConnection();
+        return (new Database($whatIsConnection))->connect();
     }
 
     /**

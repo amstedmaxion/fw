@@ -16,6 +16,9 @@ class Controller
      */
     public function execute(string $router): void
     {
+        $explode = explode(":", $router);
+        $router = $explode[0];
+
         if (substr_count($router, '@') <= 0)
             throw new Exception("A rota está registrada com o formato errado");
 
@@ -25,9 +28,9 @@ class Controller
             throw new Exception("O controller ({$controller}) não existe");
 
 
-        $controller = new $controller;
+        $controller = (new $controller);
         if (!method_exists($controller, $method)) {
-            throw new Exception("O método ({$method}) não existe no controlador ({$controller})");
+            throw new Exception("O método ({$method}) não existe.");
         }
 
         $params = new ControllerParams;
@@ -44,7 +47,7 @@ class Controller
 
                 $request = (new $requestFull());
                 $response = $controller->$method($request, ...$params);
-            } else 
+            } else
                 $response = $controller->$method(...$params);
         } else
             $response = $controller->$method(...$params);

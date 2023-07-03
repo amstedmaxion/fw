@@ -11,7 +11,7 @@ class need2BeLoggedIn
 
     function execute()
     {
-        $estaLogado = false;
+        $estaLogado = true;
         if (!$estaLogado) {
             echo "redirecionar para a página inicial";
             die;

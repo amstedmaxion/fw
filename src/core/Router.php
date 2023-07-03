@@ -16,7 +16,7 @@ class Router
         try {
             $routerRegistered = new RoutersFilter;
             $router = $routerRegistered->get();
-
+            
             if ($router) {
                 if (string_contains($router, ':'))
                     self::executeMiddlewares(
@@ -30,9 +30,9 @@ class Router
                 die;
             }
 
-            $routerClearTwoDots = str_replace(":", "", $router);
 
-            (new Controller)->execute($routerClearTwoDots);
+            
+            (new Controller)->execute($router);
         } catch (\Throwable $th) {
             echo $th->getMessage();
         }

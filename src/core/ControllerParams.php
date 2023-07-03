@@ -18,10 +18,20 @@ class ControllerParams
     {
         $uri = Uri::get();
         $routes = require(PATH_BASE . "/src/routes/Routes.php");
+
         $requestMethod = RequestType::get();
 
-        $router_ = array_search($router_, $routes[$requestMethod]);
 
+        foreach ($routes[$requestMethod] as $routeKey => $routeValue) {
+            $routes[$requestMethod][$routeKey] = mb_substr(
+                $routeValue,
+                0,
+                strpos($routeValue, ":")
+            );
+        }
+        $router_ = array_search($router_, $routes[$requestMethod]);
+        
+        
         $explodeUri = array_filter(explode('/', $uri));
         $explodeUri = array_values($explodeUri);
         $explodeRouter = array_values(array_filter(explode('/', $router_)));

@@ -1,7 +1,7 @@
 <?php
 
 //CONFIG DIRECTORY NAME
-$directory = "route";
+$directory = "phpparchment";
 if (!isProduction())
     $directory .= "-pro";
 

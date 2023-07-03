@@ -2,7 +2,6 @@
 
 namespace src\core;
 
-use src\routes\Routes;
 use src\support\RequestType;
 use src\support\Uri;
 
@@ -17,7 +16,7 @@ class RoutersFilter
     {
         $this->uri = Uri::get();
         $this->method = RequestType::get();
-        $this->routesRegistered = Routes::get();
+        $this->routesRegistered = require(PATH_BASE . "/src/routes/Routes.php");
     }
 
     /**
@@ -58,10 +57,8 @@ class RoutersFilter
      */
     public function get(): string|null
     {
-
         $router = $this->simpleRouter();
         if ($router) return $router;
-
 
         $router = $this->dynamicRouter();
         if ($router) return $router;

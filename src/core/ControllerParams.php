@@ -11,30 +11,25 @@ class ControllerParams
     /**
      * This method is responsible for get query params
      *
-     * @param string $router
-     * @param string $middleware
+     * @param string $router_
      * @return array
      */
-    public function get(string $router, string $middleware): array
+    public function get(string $router_): array
     {
         $uri = Uri::get();
-        $routes = Routes::get();
+        $routes = require(PATH_BASE . "/src/routes/Routes.php");
         $requestMethod = RequestType::get();
 
-        if ($middleware) $router = "{$router}:{$middleware}";
-        $router = array_search($router, $routes[$requestMethod]);
-
+        $router_ = array_search($router_, $routes[$requestMethod]);
 
         $explodeUri = array_filter(explode('/', $uri));
         $explodeUri = array_values($explodeUri);
-        $explodeRouter = array_values(array_filter(explode('/', $router)));
-
+        $explodeRouter = array_values(array_filter(explode('/', $router_)));
 
         $params = [];
         foreach ($explodeRouter as $index => $routerSegment) {
-            if (isset($explodeUri[$index]) && $routerSegment !== $explodeUri[$index]) 
+            if (isset($explodeUri[$index]) && $routerSegment !== $explodeUri[$index])
                 $params[$index] = $explodeUri[$index];
-            
         }
 
         return $params;

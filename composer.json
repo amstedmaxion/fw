@@ -1,6 +1,6 @@
 {
-    "version": "2.0.5",
-    "name": "amgb/framework",
+    "version": "3.0.0",
+    "name": "phpparchment/phpparchment",
     "authors": [{
         "name": "José Augusto",
         "email": "jose.jesus@gbmx.com.br"

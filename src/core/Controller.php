@@ -12,38 +12,30 @@ class Controller
      * This method is responsible for execute a controller and your method
      *
      * @param string $router
-     * @param string $middleware
      * @return void
      */
-    public function execute(string $router, string $middleware): void
+    public function execute(string $router): void
     {
         if (substr_count($router, '@') <= 0)
             throw new Exception("A rota está registrada com o formato errado");
 
-
         list($controller, $method) = explode('@', $router);
 
-
-        $namespace = 'src\controllers\\';
-        $controllerNamespace = "{$namespace}{$controller}";
-
-        if (!class_exists($controllerNamespace))
-            throw new Exception("O controller ({$controllerNamespace}) não existe");
+        if (!class_exists($controller))
+            throw new Exception("O controller ({$controller}) não existe");
 
 
-
-        $controller = new $controllerNamespace;
+        $controller = new $controller;
         if (!method_exists($controller, $method)) {
-            throw new Exception("O método ({$method}) não existe no controlador ({$controllerNamespace})");
+            throw new Exception("O método ({$method}) não existe no controlador ({$controller})");
         }
 
         $params = new ControllerParams;
-        $params = $params->get($router, $middleware);
-
+        $params = $params->get($router);
 
 
         if (strtoupper(RequestType::get()) === "POST") {
-            $reflection = new ReflectionClass($controllerNamespace);
+            $reflection = new ReflectionClass($controller);
 
             $parameters = $reflection?->getMethod($method)?->getParameters();
             if ($parameters) {
@@ -52,12 +44,10 @@ class Controller
 
                 $request = (new $requestFull());
                 $response = $controller->$method($request, ...$params);
-            } else {
+            } else 
                 $response = $controller->$method(...$params);
-            }
-        } else {
+        } else
             $response = $controller->$method(...$params);
-        }
 
 
         if (!$response::$isString) redirect($response::$redirect);

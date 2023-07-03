@@ -16,17 +16,34 @@ class Router
         try {
             $routerRegistered = new RoutersFilter;
             $router = $routerRegistered->get();
-            $middleware = '';
+
             if ($router) {
                 if (string_contains($router, ':'))
-                    [$router, $middleware] = explode(':', $router);
-            } else
-                throw new Exception("A rota informada não existe");
+                    self::executeMiddlewares(
+                        array_filter(array_filter(explode(":", $router), function ($r) {
+                            return !str_contains($r, '@');
+                        }))
+                    );
+            } else {
+                $response = (Response::viewRender('404'));
+                echo $response::$isString;
+                die;
+            }
 
+            $routerClearTwoDots = str_replace(":", "", $router);
 
-            (new Controller)->execute($router, $middleware);
+            (new Controller)->execute($routerClearTwoDots);
         } catch (\Throwable $th) {
             echo $th->getMessage();
+        }
+    }
+
+
+
+    static function executeMiddlewares(array $middlewares = [])
+    {
+        foreach ($middlewares as $middlewareKey => $middleware) {
+            new $middleware();
         }
     }
 }

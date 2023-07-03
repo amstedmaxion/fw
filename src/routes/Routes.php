@@ -2,17 +2,15 @@
 
 namespace src\routes;
 
+use src\routes\BaseRouter;
 
-class Routes
-{
+$router = new BaseRouter;
 
-    public static function get()
-    {
-        return [
-            "get" => [],
-            "post" => [],
-            "put" => [],
-            "delete" => [],
-        ]; 
-    }
-}
+// ========== Start ============
+
+//Enter your routes here
+
+// ========= End ===============
+
+
+return $router->init();

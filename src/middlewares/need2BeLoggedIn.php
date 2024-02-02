@@ -11,9 +11,10 @@ class need2BeLoggedIn
 
     function execute()
     {
-        $estaLogado = true;
-        if (!$estaLogado) {
-            echo "redirecionar para a página inicial";
+        $isLogged = isset($_SESSION["usuarioLogin"]);
+        if (!$isLogged) {
+            $routeLogin = URL_LOGIN;
+            header("Location: {$routeLogin}");
             die;
         }
         return true;

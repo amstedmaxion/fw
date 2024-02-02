@@ -19,6 +19,7 @@ function isProduction()
  */
 function whatsCompany(): null|string
 {
+    return "amsted";
     $companySession = $_SESSION["usuarioEmpresa"] ?? null;
     $isCorporate = $_SESSION["usuarioCorporativo"] ?? null;
     if($isCorporate) return "greenbrier";

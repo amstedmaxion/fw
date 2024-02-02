@@ -35,9 +35,9 @@ function uploads_directory($path = '')
     return URL_BASE  . "/public/uploads{$path}";
 }
 
-function base_url()
+function base_url(string $complement = null)
 {
-    return URL_BASE;
+    return URL_BASE . $complement;
 }
 
 

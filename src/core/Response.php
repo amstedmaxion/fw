@@ -43,10 +43,10 @@ class Response
      * 
      * @return self
      */
-    public static function back(): self
+    public static function back(string $params = null): self
     {
         self::$isString = false;
-        self::$redirect = url_back();
+        self::$redirect = url_back() . $params;
         return new static;
     }
 

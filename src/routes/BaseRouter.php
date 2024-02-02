@@ -37,6 +37,7 @@ class BaseRouter
      */
     function add(string $method, string $uri, string $controller, string $controllerMethod, array $middlewares = [])
     {
+        $uri = rtrim($uri, '/');
         $middlewares = $this->joinMiddlewares($middlewares);
         $this->routes[strtolower($method)]["{$uri}"] =
             "{$controller}@{$controllerMethod}:{$middlewares}";
@@ -95,7 +96,7 @@ class BaseRouter
     {
         return $this->add("PUT", $prefix . $endpoint, $controller, $method, $middlewares);
     }
-   
+
     /**
      * Responsible for receiving and executing the meddlewares of the grouping
      * 
@@ -119,7 +120,7 @@ class BaseRouter
      * @param Closure $callback
      * @param array $middlewares
      * 
-     * @return self
+     * @return BaseRouter
      */
     function group(string $prefix, Closure $callback, array $middlewares = [])
     {

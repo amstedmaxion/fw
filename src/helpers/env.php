@@ -2,14 +2,20 @@
 
 //CONFIG DIRECTORY NAME
 $directory = "phpparchment";
-if (!isProduction())
-    $directory .= "-pro";
+// if (!isProduction())
+//     $directory .= "-dev";
+
+
+define("URL_LOGIN", "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/amsted/");
 
 //URL_BASE
 define('URL_BASE', "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/amsted/{$directory}");
 
+
+
 //PATH_BASE
 define("PATH_BASE", "/var/www/htdocs/amsted/{$directory}");
+define("PATH_UPLOADS", PATH_BASE . "/public/uploads/");
 
 
 //LANG
@@ -46,7 +52,7 @@ define("LOGIX_PROD", "logix_prod");
 //DATABASE TABLEAU
 
 //DATABASE DEFAULT
-define("DATABASE_DEFAULT", INTRANET_PROD_02);
+define("DATABASE_DEFAULT", INTRANET_HOMO_252);
 
 
 
@@ -58,4 +64,3 @@ define("PAGE", 'page');
 
 //CONFIG MENU ID
 define("MENU_ID", "number or text");
-

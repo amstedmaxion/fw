@@ -10,9 +10,9 @@ class Request
      * This method is responsible for returning a single index of the super global $_POST
      *
      * @param string $name
-     * @return string|null
+     * @return string|null|array
      */
-    public static function input(string $name): string|null
+    public static function input(string $name): string|null|array
     {
         if (isset($_POST[$name])) return $_POST[$name];
         return null;
@@ -88,6 +88,12 @@ class Request
         }
 
         return $fieldsPost;
+    }
+
+
+    public static function queryAll()
+    {
+        return $_GET;
     }
 
 

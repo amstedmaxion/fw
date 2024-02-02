@@ -26,11 +26,12 @@ abstract class BaseRepository
      * 
      * @param mixed $model 
      * 
-     * @return void
+     * @return self
      */
-    public function setModel(mixed $model): void
+    public function setModel(mixed $model): self
     {
         $this->model = $model;
+        return $this;
     }
 
 
@@ -73,8 +74,12 @@ abstract class BaseRepository
      * 
      * @return self
      */
-    public function done(bool $onlyOne = true, object $paginate = null): self
+    public function done(bool $onlyOne = true, object $paginate = null, bool $debug = false): self
     {
+        if ($debug) {
+            echo "<pre>{$this->queryString}</pre>";
+            die;
+        }
 
         if (!empty($paginate)) {
             $totalItems = count($this->connect($this->model->db)->query($this->queryString)->fetchAll() ?? []);
@@ -97,21 +102,27 @@ abstract class BaseRepository
     /**
      * If the "ID" property does not exist in the object, it means that an Insert should be performed, otherwise an update should be performed.
      * 
-     * @return bool
+     * @return bool|object
      */
-    public function save(): bool
+    public function save(bool $debug = false): bool|object
     {
 
         try {
             $properties = array_excepts(get_object_vars($this->model), ["table", "db", "relations"]);
-
+            
             if (!isset($this->model->id)) {
                 $fields = implode(', ', array_keys($properties));
                 $values = ":" . implode(', :', array_keys($properties));
                 $query = "INSERT INTO {$this->model->table} ({$fields}) VALUES ({$values})";
 
-                $stmt = $this->connect($this->model->db)->prepare($query);
-                return $stmt->execute($properties);
+                if($debug)
+                    dd($query);
+
+                $database = $this->connect($this->model->db);
+                $stmt = $database->prepare($query);
+                $stmt->execute($properties);
+                $this->model->id = $database->lastInsertId();
+                return $this->model;
             } else {
                 $fields = array_keys($properties);
                 $sets = [];

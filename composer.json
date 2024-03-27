@@ -1,5 +1,5 @@
 {
-    "version": "5.0.0",
+    "version": "5.0.1",
     "name": "phpparchment/phpparchment",
     "authors": [{
         "name": "José Augusto",
@@ -45,5 +45,9 @@
             "src/helpers/path.php",
             "src/helpers/user.php"
         ]
-    }
+    },
+    "license": [
+        "MIT"
+    ]
+   
 }

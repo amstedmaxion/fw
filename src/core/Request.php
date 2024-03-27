@@ -2,8 +2,6 @@
 
 namespace src\core;
 
-use Exception;
-
 class Request
 {
     /**
@@ -14,8 +12,7 @@ class Request
      */
     public static function input(string $name): string|null|array
     {
-        if (isset($_POST[$name])) return $_POST[$name];
-        return null;
+        return $_POST[$name] ?? null;
     }
 
     /**
@@ -23,14 +20,24 @@ class Request
      *
      * @param string $key
      * @param mixed $value
-     * @return void
+     * @return mixed
      */
-    public static function setInput(string $key, mixed $value): void
+    public static function setInput(string $key, mixed $value): mixed
     {
         $_POST[$key] = $value;
+        return $_POST[$key];
     }
 
 
+    /**
+     * Method responsible for returning all fields of the request form
+     *
+     * @return array
+     */
+    public function get(): array
+    {
+        return $_POST;
+    }
 
 
     /**
@@ -91,8 +98,10 @@ class Request
     }
 
 
-    public static function queryAll()
+    public static function getQuery(string $param = null)
     {
+        if ($param)
+            return self::query($param);
         return $_GET;
     }
 
@@ -105,9 +114,8 @@ class Request
      */
     public static function query(string $name): string|null
     {
-        if (!isset($_GET[$name])) {
+        if (!isset($_GET[$name]))
             return null;
-        }
         return $_GET[$name] != '' ? $_GET[$name] : null;
     }
 
@@ -129,23 +137,8 @@ class Request
      * @param string $input
      * @return int
      */
-    public static function countInput(string $input): int
+    public static function countPost(string $input): int
     {
         return count($_POST[$input]);
-    }
-
-
-    /**
-     * Method responsible for converting a JSON to array
-     *
-     * @param string $data
-     * @return array
-     */
-    public static function toArray(string $data): array
-    {
-        if (isJson($data)) {
-            return json_decode($data);
-        }
-        throw new Exception("O parâmetro informado não corresponde a um JSON");
     }
 }

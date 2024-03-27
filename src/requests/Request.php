@@ -2,9 +2,9 @@
 
 namespace src\requests;
 
-use src\core\Request;
+use src\core\Request as httpRequest;
 
-abstract class BaseRequest
+abstract class Request
 {
 
     protected $rules;
@@ -14,9 +14,9 @@ abstract class BaseRequest
      * 
      * @return array
      */
-    public function inputs(): array
+    public function get(): array
     {
-        return Request::excepts(["token"]);
+        return httpRequest::excepts(["token"]);
     }
 
 
@@ -27,7 +27,7 @@ abstract class BaseRequest
      */
     public function input(string $input): string|array
     {
-        return Request::input($input);
+        return httpRequest::input($input);
     }
 
     /**
@@ -47,7 +47,7 @@ abstract class BaseRequest
     public function execute()
     {
         if (!formValidate($this->rules())) {
-            dyoxfy("Whoops! Não foi possível prosseguir com a solicitação.", MESSAGE_ERROR);
+            notification("Whoops! Não foi possível prosseguir com a solicitação.", MESSAGE_ERROR);
             return redirect(url_back());
         }
 

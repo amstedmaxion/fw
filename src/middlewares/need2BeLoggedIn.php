@@ -13,7 +13,7 @@ class need2BeLoggedIn
     {
         $isLogged = isset($_SESSION["usuarioLogin"]);
         if (!$isLogged) {
-            $routeLogin = URL_LOGIN;
+            $routeLogin = route("/");
             header("Location: {$routeLogin}");
             die;
         }

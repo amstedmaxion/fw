@@ -11,7 +11,7 @@ class Model
      * 
      * @return self
      */
-    public function fill(array $data): self
+    public function set(array $data): self
     {
         foreach ($data as $name => $value) {
             $this->$name = $value;

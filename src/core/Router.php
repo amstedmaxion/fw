@@ -2,8 +2,6 @@
 
 namespace src\core;
 
-use Exception;
-
 class Router
 {
     /**
@@ -17,6 +15,8 @@ class Router
             $routerRegistered = new RoutersFilter;
             $router = $routerRegistered->get();
             
+            
+
             if ($router) {
                 if (string_contains($router, ':'))
                     self::executeMiddlewares(
@@ -30,7 +30,7 @@ class Router
                 die;
             }
 
-
+            
             
             (new Controller)->execute($router);
         } catch (\Throwable $th) {

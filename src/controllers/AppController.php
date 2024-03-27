@@ -3,24 +3,19 @@
 namespace src\controllers;
 
 use Exception;
-use PDOException;
-use src\core\Response;
-use src\services\ReportService;
+use src\core\View;
 
 class AppController extends Controller
 {
 
-    function index()
+    /**
+     * This function is the entry point of the application.
+     * @return View
+     */
+    function welcome(): View
     {
         try {
-            $srv = new ReportService;
-            $listReserves = $srv->listReserves();
-
-            dyoxfy("This is a message test from it", MESSAGE_SUCCESS);
-            dyoxfy("This is a message test from it", MESSAGE_ERROR);
-            dyoxfy("This is a message test from it", MESSAGE_INFO);
-            dyoxfy("This is a message test from it", MESSAGE_WARNING);
-            return Response::viewRender('report', $listReserves);            
+            return View::render('app.welcome');
         } catch (Exception $e) {
             dd($e);
         }

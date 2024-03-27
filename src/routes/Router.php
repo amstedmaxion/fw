@@ -5,7 +5,7 @@ namespace src\routes;
 use Closure;
 use src\support\Uri;
 
-class BaseRouter
+class Router
 {
     /**
      * Array that stores routes

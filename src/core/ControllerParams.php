@@ -2,7 +2,6 @@
 
 namespace src\core;
 
-use src\routes\Routes;
 use src\support\RequestType;
 use src\support\Uri;
 
@@ -19,6 +18,7 @@ class ControllerParams
         $uri = Uri::get();
         $routes = require(PATH_BASE . "/src/routes/Routes.php");
 
+        
         $requestMethod = RequestType::get();
 
 

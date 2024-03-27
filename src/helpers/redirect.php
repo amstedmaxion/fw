@@ -22,7 +22,7 @@ function redirect(string $to)
  */
 function route(string $route)
 {
-    return URL_BASE . $route;
+    return APP_URL . $route;
 }
 
 /**

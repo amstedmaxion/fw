@@ -53,7 +53,11 @@ class Controller
             $response = $controller->$method(...$params);
 
 
-        if (!$response::$isString) redirect($response::$redirect);
-        else echo $response::$isString;
+        if ($response instanceof View || $response instanceof Json) {
+            echo $response::$isString;
+            die;
+        }
+
+        redirect($response::$redirect);
     }
 }

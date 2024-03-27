@@ -1,5 +1,5 @@
 {
-    "version": "4.0.0",
+    "version": "5.0.0",
     "name": "phpparchment/phpparchment",
     "authors": [{
         "name": "José Augusto",
@@ -8,7 +8,8 @@
     "require": {
         "league/plates": "^3.4",
         "symfony/var-dumper": "^5.4",
-        "phpmailer/phpmailer": "^6.8"
+        "phpmailer/phpmailer": "^6.8",
+        "ramsey/uuid": "4.2.3"
     },
     "autoload": {
         "psr-4": {
@@ -16,16 +17,31 @@
         },
         "files": [
             "src/helpers/init.php",
-            "src/helpers/messages.php",
-            "src/helpers/routes.php",
-            "src/helpers/handleEnvironments.php",
-            "src/helpers/env.php",
-            "src/helpers/json.php",
+            "src/helpers/environments.php",
+            
+            "src/helpers/env_vars/urls.php",
+            "src/helpers/env_vars/paths.php",
+            "src/helpers/env_vars/db_intranet.php",
+            "src/helpers/env_vars/db_logix.php",
+            "src/helpers/env_vars/db_workflow.php",
+            "src/helpers/env_vars/db_default.php",
+            "src/helpers/env_vars/generic.php",
+            "src/helpers/env_vars/menu.php",
+            "src/helpers/env_vars/messages.php",
+            "src/helpers/env_vars/paginate.php",
+
+            
+            
             "src/helpers/generic.php",
+            "src/helpers/array.php",
+            "src/helpers/date.php",
+            "src/helpers/environments.php",
+            "src/helpers/html.php",
+            "src/helpers/notification.php",
             "src/helpers/flash.php",
             "src/helpers/redirect.php",
             "src/helpers/sessions.php",
-            "src/helpers/dyoxfy.php",
+            
             "src/helpers/path.php",
             "src/helpers/user.php"
         ]

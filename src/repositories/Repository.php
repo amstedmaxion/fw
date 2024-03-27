@@ -2,21 +2,24 @@
 
 namespace src\repositories;
 
+use DateTime;
+use Exception;
 use PDO;
 use PDOException;
+use Ramsey\Uuid\Nonstandard\Uuid;
 use src\database\Database;
 use src\database\Paginate;
-use src\traits\BaseRepositoryFunctions;
+use src\support\MySQLErrors;
+use src\traits\RepositoryTrait;
 
-abstract class BaseRepository
+abstract class Repository
 {
-    use BaseRepositoryFunctions;
+    use RepositoryTrait;
     private $queryString;
     public $results;
 
 
     private $where = false;
-    protected $relations = [];
     public $paginate = null;
     public mixed $model;
 
@@ -99,45 +102,76 @@ abstract class BaseRepository
         return $this;
     }
 
-    /**
-     * If the "ID" property does not exist in the object, it means that an Insert should be performed, otherwise an update should be performed.
-     * 
-     * @return bool|object
-     */
-    public function save(bool $debug = false): bool|object
+
+    public function save(): object
     {
-
         try {
-            $properties = array_excepts(get_object_vars($this->model), ["table", "db", "relations"]);
-            
-            if (!isset($this->model->id)) {
-                $fields = implode(', ', array_keys($properties));
-                $values = ":" . implode(', :', array_keys($properties));
-                $query = "INSERT INTO {$this->model->table} ({$fields}) VALUES ({$values})";
+            $properties = array_excepts(get_object_vars($this->model), ["table", "db"]);
 
-                if($debug)
-                    dd($query);
-
-                $database = $this->connect($this->model->db);
-                $stmt = $database->prepare($query);
-                $stmt->execute($properties);
-                $this->model->id = $database->lastInsertId();
-                return $this->model;
-            } else {
-                $fields = array_keys($properties);
-                $sets = [];
-                foreach ($fields as $index => $field) {
-                    $sets[] = "{$field} = :{$field}";
-                }
-                $setsString = implode(", ", $sets);
-
-                $query = "UPDATE {$this->model->table} SET {$setsString} WHERE id = {$this->model->id}";
-                $stmt = $this->connect($this->model->db)->prepare($query);
-                return $stmt->execute($properties);
+            if (empty($properties)) {
+                throw new Exception("Necessário informar as propriedades do modelo. Ex: (new Model)->set(['id' => '91369631-31767813-78135t7813'])", 400);
             }
+
+            $properties["id"] = Uuid::uuid4()->toString();
+            $properties["created_at"] = (new DateTime())->format("Y-m-d H:i:s");
+            $properties["updated_at"] = $properties["created_at"];
+
+
+            $fields = implode(', ', array_keys($properties));
+            $values = ":" . implode(', :', array_keys($properties));
+            $query = "INSERT INTO {$this->model->table} ({$fields}) VALUES ({$values})";
+
+
+            $database = $this->connect($this->model->db);
+            $stmt = $database->prepare($query);
+            $stmt->execute($properties);
+            $this->model->id = $database->lastInsertId();
+            return $this->model;
         } catch (PDOException $e) {
-            if (DEBUG) dd($e->getMessage());
-            return null;
+            if (DEBUG)
+                dd($e);
+
+
+            $message = null;
+            if ($e->getCode() === "42S02")
+                $message = MySQLErrors::ERROR_42S02;
+            throw new Exception($message, 400);
+        }
+    }
+
+
+
+    public function update(): object
+    {
+        try {
+            $properties = array_excepts(get_object_vars($this->model), ["table", "db"]);
+
+            if (empty($properties)) {
+                throw new Exception("Necessário informar as propriedades do modelo. Ex: (new Model)->set(['id' => '91369631-31767813-78135t7813'])", 400);
+            }
+            $properties["updated_at"] = (new DateTime())->format("Y-m-d H:i:s");
+            $fields = array_keys($properties);
+            $sets = [];
+            foreach ($fields as $index => $field) {
+                $sets[] = "{$field} = :{$field}";
+            }
+            $setsString = implode(", ", $sets);
+
+            $query = "UPDATE {$this->model->table} SET {$setsString} WHERE id = '{$this->model->id}'";
+            $stmt = $this->connect($this->model->db)->prepare($query);
+            $updated = $stmt->execute($properties);
+            if ($updated)
+                return $this->byId($this->model->id);
+
+            throw new Exception("Não foi possível atualizar o registro", 400);
+        } catch (PDOException $e) {
+            if (DEBUG)
+                dd($e);
+
+            $message = null;
+            if ($e->getCode() === "42S02")
+                $message = MySQLErrors::ERROR_42S02;
+            throw new Exception($message, 400);
         }
     }
 
@@ -165,7 +199,7 @@ abstract class BaseRepository
      */
     public function destroy(): bool
     {
-        $this->queryString = "DELETE FROM {$this->model->table} WHERE id = {$this->model->id}";
+        $this->queryString = "DELETE FROM {$this->model->table} WHERE id = '{$this->model->id}'";
         return $this->connect($this->model->db)->exec($this->queryString);
     }
 
@@ -275,7 +309,7 @@ abstract class BaseRepository
      */
     public function applyFilters(string $filter): self
     {
-        $properties = array_keys(array_excepts(get_object_vars($this), ["queryString", "results", "table", "db", "where", "relations", 'paginate', "validations"]));
+        $properties = array_keys(array_excepts(get_object_vars($this), ["queryString", "results", "table", "db", "where", 'paginate', "validations"]));
 
 
         foreach ($properties as $indexProperty => $property) {
@@ -310,37 +344,6 @@ abstract class BaseRepository
         return $this;
     }
 
-
-    /**
-     * This method is responsible for seeking the registration of relationships with the model
-     * @return self
-     */
-    public function relations(): self
-    {
-        if (isset($this->model->relations) && count($this->model->relations)) {
-            if (is_array($this->results)) {
-                foreach ($this->results as $index => $result) {
-                    foreach ($this->model->relations as $class => $options) {
-                        $classNamespace = "src\database\models\\{$class}";
-                        $query = "SELECT * FROM {$options['table']} WHERE {$options['column']} = {$result->id}";
-
-                        $newIndex = $options['index'];
-                        $result->$newIndex = $options['relation'] === 'hasOne' ? $this->connect($this->model->db)->query($query)->fetchObject($classNamespace) : $this->connect($this->model->db)->query($query)->fetchAll(PDO::FETCH_CLASS, $classNamespace);
-                    }
-                }
-            } else if (is_object($this->results)) {
-                foreach ($this->model->relations as $class => $options) {
-                    $classNamespace = "src\database\models\\{$class}";
-                    $query = "SELECT * FROM {$options['table']} WHERE {$options['column']} = {$this->results->id}";
-
-                    $newIndex = $options['index'];
-                    $this->results->$newIndex = $options['relation'] === 'hasOne' ? $this->connect($this->model->db)->query($query)->fetchObject($classNamespace) : $this->connect($this->model->db)->query($query)->fetchAll(PDO::FETCH_CLASS, $classNamespace);
-                }
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * Method responsible for seeking the results

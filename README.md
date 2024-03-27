@@ -49,7 +49,7 @@ Para isso é necessário ter o composer instalado e executar o seguinte código
 Para rodar o seu projeto, você vai precisar adicionar as seguintes variáveis
  de ambiente no seu env.php
 
-`define('URL_BASE', "{$_SERVER['HTTP_HOST']}/amsted/project-name");`
+`define('APP_URL', "{$_SERVER['HTTP_HOST']}/amsted/project-name");`
 
 É de extrema importância esta variável, pois ela é utilizada em conjunto com 
 o sistema de roteamento da aplicação além de ser a base dos helpers

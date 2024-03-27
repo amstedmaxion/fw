@@ -8,7 +8,14 @@ use src\support\Flash;
 trait Validations
 {
 
-    public function unique(string $field, $repository)
+    /**
+     * Responsible for verifying if a particular record is already registered
+     * 
+     * @param string $field
+     * @param string $repository
+     * @return mixed
+     */
+    public function unique(string $field, $repository): mixed
     {
         $id = Request::input('id');
 
@@ -42,7 +49,12 @@ trait Validations
         return strip_tags($data);
     }
 
-    public function email(string $field)
+    /**
+     * Responsible for checking if the email provided is valid
+     * @param string $field
+     * @return string 
+     */
+    public function email(string $field): string
     {
         if (!filter_input(INPUT_POST, $field, FILTER_VALIDATE_EMAIL)) {
             if (LANG === 'en') $message = "The email provided is not valid";
@@ -54,7 +66,13 @@ trait Validations
         return strip_tags(Request::input($field), '<p>');
     }
 
-    public function maxLen(string $field, int $length)
+    /**
+     * Check if the field contains the amount of characters in its maximum limit
+     * @param string $field
+     * @param int $length
+     * @return mixed
+     */
+    public function maxLen(string $field, int $length): mixed
     {
         $data = Request::input($field);
         if (strlen($data) > $length) {
@@ -67,7 +85,12 @@ trait Validations
         return strip_tags($data, '<p>');
     }
 
-    public function required(string $field)
+    /**
+     * Checks if the field has been completed
+     * @param string $field
+     * @return mixed
+     */
+    public function required(string $field): mixed
     {
         $data = Request::input($field);
         if (empty($data)) {
@@ -84,7 +107,12 @@ trait Validations
     }
 
 
-    public function withoutValidation(string $field)
+    /**
+     * Only returns the informed content
+     * @param string $field
+     * @return mixed
+     */
+    public function isOptional(string $field): mixed
     {
         return Request::input($field);
     }

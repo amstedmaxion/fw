@@ -3,10 +3,10 @@
 
 <!-- HEAD -->
 
-<head class="dark-mode">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Controle de itens liberados</title>
+    <title><?= $titleWeb ?? '' ?></title>
 
 
 
@@ -15,12 +15,6 @@
 
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-
-    <!-- Sweet Alert -->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-    <script src="<?= js_directory("/tinymce.js") ?>"></script>
-
 
     <!-- Loader CSS -->
     <link rel="stylesheet" href="<?= css_directory("/loader.css"); ?>">
@@ -42,14 +36,7 @@
 
 
 
-<body class="<?= whatsCompany() ?>">
-
-
-    <!-- Header -->
-    <!-- <header>
-        Controle de itens liberados
-    </header> -->
-
+<body class="<?= COMPANY ?>">
 
     <!-- Content -->
     <div class="container mt-4">
@@ -67,8 +54,8 @@
                         </a>
                     <?php } ?>
 
-                    <span class="d-flex align-items-center"><?= $titleOnCardHeader ?? null ?></span>
-                    <img src="<?= image_directory('/' . whatsCompany() . '.png'); ?>" alt="Logo Empresa">
+                    <span class="d-flex align-items-center"><?= $titleInCard ?? null ?></span>
+                    <img src="<?= image_directory('/' . COMPANY . '.png'); ?>" alt="Logo Empresa">
                 </div>
             </div>
             <div class="card-body">

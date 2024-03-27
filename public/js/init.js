@@ -1,56 +1,75 @@
 // The below variable stores the application base url, example: http://192.167.44.252/amsted/example-directory
-const BASE_URL = `${window.location.protocol}//${window.location.host}/${window.location.pathname.split('/')[1]}/${window.location.pathname.split('/')[2]}`;
+const APP_URL = `${window.location.protocol}//${window.location.host}/${
+  window.location.pathname.split("/")[1]
+}/${window.location.pathname.split("/")[2]}`;
 
+/**
+ * Responsible for obtaining Query String parameters
+ * @returns {object} - Params of url
+ */
+function getQuery() {
+  var params = {};
+  var queryString = window.location.search.substring(1);
 
-
-//Global for query params
-const urlParams = new URLSearchParams(window.location.search);
-
-
-function findElement(inputId) {
-    let input = document.getElementById(inputId);
-    if (input) return input;
-    return false;
+  if (queryString) {
+    var queries = queryString.split("&");
+    queries.forEach(function (query) {
+      var parts = query.split("=");
+      params[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1] || "");
+    });
+  }
+  return params;
 }
 
-
-function loaderOn() {
-    loader("show");
+/**
+ * Responsible for obtaining an element by ID
+ * @param {String} id
+ * @returns object - Params of url
+ */
+function getElement(inputId) {
+  let input = document.getElementById(inputId);
+  if (input) return input;
+  return false;
 }
 
+/**
+ * Responsible for displaying or hiding the loader
+ * @param {String} action
+ */
 function loader(action) {
-    if (action === "show") {
-        document.querySelector(".loader-wrapper").classList.add("active");
-    } else if (action === "hidden") {
-        document.querySelector(".loader-wrapper").classList.remove("active");
-    }
+  let loaderWrapper = document.querySelector(".loader-wrapper");
+  if (loaderWrapper) {
+    if (action === "show") loaderWrapper.classList.add("active");
+    else if (action === "hidden") loaderWrapper.classList.remove("active");
+  }
 }
-
-
-
-
 
 /**
  * This method aims to set the value of a field through the ID
- * @param {String} id 
- * @param {*} value 
+ * @param {String} id
+ * @param {*} value
  * @return {true|false}
  */
 function setValueById(id, value) {
-    if (document.getElementById(id)) {
-        document.getElementById(id).value = value;
-        return true;
+  if ((element = document.getElementById(id))) {
+    element.value = value;
+    return true;
+  }
+  return false;
+}
+
+
+
+async function getPage(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
     }
-    return false;
+    const data = await response.text();
+    return data;
+  } catch (error) {
+    console.error('Houve um problema ao tentar buscar o arquivo:', error);
+    return null;
+  }
 }
-
-
-/**
- * Active tooltips from bootstrap using js vanilla
- */
-function enableTooltips() {
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-}
-
-enableTooltips();

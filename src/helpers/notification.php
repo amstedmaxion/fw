@@ -1,7 +1,12 @@
 <?php
 
-
-function dyoxfy(string $message, string $type)
+/**
+ * Responsible for adding messages to the "DyoxFy" array for viewing on view
+ * @param string $message - The Message to display
+ * @param string $type - The type of message
+ * @return void
+ */
+function notification(string $message, string $type): void
 {
     $_SESSION["dyoxfy"][] = [
         "type" => $type,
@@ -9,7 +14,12 @@ function dyoxfy(string $message, string $type)
     ];
 }
 
-function dyoxfyStart()
+
+/**
+ * Responsible display messages using js
+ * @return void
+ */
+function dyoxfyStart(): void
 {
     if (isset($_SESSION["dyoxfy"])) {
         foreach ($_SESSION["dyoxfy"] as $toastKey => $toast) {

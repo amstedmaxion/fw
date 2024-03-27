@@ -10,7 +10,7 @@
  */
 function css_directory($path = '')
 {
-    return URL_BASE . "/public/css{$path}";
+    return APP_URL . "/public/css{$path}";
 }
 
 /**
@@ -21,7 +21,7 @@ function css_directory($path = '')
  */
 function js_directory($path = '')
 {
-    return URL_BASE  . "/public/js{$path}";
+    return APP_URL  . "/public/js{$path}";
 }
 
 /**
@@ -32,12 +32,12 @@ function js_directory($path = '')
  */
 function uploads_directory($path = '')
 {
-    return URL_BASE  . "/public/uploads{$path}";
+    return APP_URL  . "/public/uploads{$path}";
 }
 
 function base_url(string $complement = null)
 {
-    return URL_BASE . $complement;
+    return APP_URL . $complement;
 }
 
 
@@ -50,7 +50,7 @@ function base_url(string $complement = null)
  */
 function image_directory($image)
 {
-    return URL_BASE  . '/public/images/' . $image;
+    return APP_URL  . '/public/images/' . $image;
 }
 
 
@@ -61,5 +61,5 @@ function image_directory($image)
  */
 function migrations_path()
 {
-    return URL_BASE . '/docs/migrations.sql';
+    return APP_URL . '/docs/migrations.sql';
 }

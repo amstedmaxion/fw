@@ -4,7 +4,7 @@ namespace src\traits;
 
 use src\core\Request;
 
-trait BaseRepositoryFunctions
+trait RepositoryTrait
 {
 
 
@@ -31,12 +31,13 @@ trait BaseRepositoryFunctions
     /**
      * This method's responsible for find by column id
      * 
-     * @param int $id  Registration ID that is to seek
+     * @param string $id  Registration ID that is to seek
      * @return object|null
      */
-    public function byId(int $id)
+    public function byId(string $id)
     {
-        return $this->select(['*'])->where(column: "id", operator: "=", value: $id)->done(onlyOne: true);
+        $find = $this->select(['*'])->where(column: "id", operator: "=", value: "'{$id}'")->done(onlyOne: true);
+        return empty($find->results) ? null : $find->results; 
     }
 
     /**
